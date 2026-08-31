@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Joblife To OM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --om-navy:#04182e; --om-navy2:#0a2c50; --om-blue:#1568b8; --om-sky:#5cc2f2;
+    --jl-black:#0c0c0f; --jl-charcoal:#18181d; --jl-red:#e2192c; --jl-red-dim:#8c0f1c;
+    --paper:#f3f2ef; --ink:#101114; --yellow:#ffd400; --green:#2fbf71; --orange:#e08a00;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;scroll-behavior:smooth;}
+  body{ font-family:'Archivo',sans-serif; background:var(--paper); color:var(--ink); min-height:100vh; }
+  a{ color:inherit; }
+
+  .masthead{ text-align:center; padding:8px 10px; background:#000; color:#fff; font-family:'Anton',sans-serif; letter-spacing:0.5px; font-size:13px; }
+  .masthead span.mid{ color:var(--om-sky); } .masthead span.mid2{ color:var(--jl-red); }
+
+  .switcher{ position:sticky; top:0; z-index:50; display:flex; background:var(--ink); }
+  .switcher button{ flex:1; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; padding:12px 10px; color:rgba(255,255,255,0.5); background:transparent; transition:color .2s ease, background .2s ease; }
+  .switcher button:not(.active):hover{ color:rgba(255,255,255,0.85); }
+  .nav-logo{ width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:12px; color:#fff; flex:none; }
+  .nav-logo.om{ background:radial-gradient(circle at 35% 30%,#fff,#dff0fb 40%,var(--om-sky) 100%); color:var(--om-navy); }
+  .nav-logo.jl{ background:linear-gradient(140deg,var(--jl-red),#5c0a12); }
+  .switcher button span.label{ font-family:'Anton',sans-serif; font-size:14px; letter-spacing:0.5px; }
+  .switcher button.active.tab-om{ background:linear-gradient(180deg,var(--om-blue),var(--om-navy)); color:#fff; }
+  .switcher button.active.tab-jl{ background:linear-gradient(180deg,var(--jl-red),var(--jl-red-dim)); color:#fff; }
+
+  .subnav{ display:flex; gap:8px; flex-wrap:wrap; padding:0 clamp(20px,5vw,60px) 18px; }
+  .subnav button{
+    border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.75);
+    font-family:'Archivo',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.3px;
+    padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .15s ease;
+  }
+  .subnav button.active{ background:var(--yellow); color:var(--om-navy); border-color:var(--yellow); }
+  .page.jl-page .subnav button.active{ background:var(--jl-red); color:#fff; border-color:var(--jl-red); }
+  .subpage{ display:none; }
+  .subpage.active{ display:block; animation:fade .3s ease; }
+
+  .page{ display:none; }
+  .page.active{ display:block; animation:fade .35s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- OM PAGE ---------- */
+  .page.om-page{ background: radial-gradient(1200px 600px at 10% -10%, rgba(92,194,242,0.25), transparent 60%), linear-gradient(190deg,var(--om-navy) 0%,var(--om-navy2) 55%,var(--om-blue) 130%); color:#eaf3fb; }
+  .om-hero{ padding:36px clamp(20px,5vw,60px) 18px; }
+  .om-hero .crest{ width:64px; height:64px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#fff,#dff0fb 45%,var(--om-sky) 100%); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; color:var(--om-navy); font-size:22px; margin-bottom:12px; box-shadow:0 6px 24px rgba(0,0,0,0.35); border:3px solid rgba(255,255,255,0.6); }
+  .om-hero h1{ font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(30px,6vw,50px); margin:0 0 6px; }
+  .om-hero p{ max-width:560px; color:rgba(234,243,251,0.8); font-size:14px; margin:0 0 18px; }
+
+  section.block{ padding:34px clamp(20px,5vw,60px); border-bottom:1px solid rgba(255,255,255,0.06); }
+  section.block:last-of-type{ border-bottom:none; }
+  .block-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.25); padding-bottom:12px; }
+  .block-head h2{ font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(19px,2.8vw,26px); margin:0; }
+  .block-head .meta{ font-size:11.5px; color:rgba(234,243,251,0.55); }
+
+  .results-strip{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .match-card{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:16px 18px; }
+  .match-card .comp{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.6px; color:rgba(234,243,251,0.5); margin-bottom:8px; }
+  .match-row{ display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:15px; }
+  .match-row .score{ font-family:'Anton',sans-serif; font-size:20px; padding:2px 10px; border-radius:6px; }
+  .match-card.win .score{ background:var(--green); color:#04180d; }
+  .match-card.loss .score{ background:var(--jl-red); color:#fff; }
+  .match-card.next .score{ background:rgba(255,255,255,0.15); color:#fff; font-size:14px; }
+  .match-card .sub{ font-size:11.5px; color:rgba(234,243,251,0.55); margin-top:8px; }
+
+  .standings-wrap{ background:rgba(4,24,46,0.55); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:6px; overflow-x:auto; }
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  table.standings{ min-width:560px; }
+  table th, table td{ padding:9px 8px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.08); }
+  table th{ font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:rgba(234,243,251,0.55); font-weight:700; }
+  table td.team, table td.joueur{ text-align:left; font-weight:700; display:flex; align-items:center; gap:10px; color:#fff; }
+  table td.pos{ font-family:'Anton',sans-serif; color:rgba(255,255,255,0.4); width:24px; }
+  .badge{ width:24px; height:24px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:8.5px; font-weight:800; color:#fff; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.35); }
+  tr.om-row td{ background:var(--yellow); color:var(--om-navy) !important; }
+  tr.om-row td.team{ color:var(--om-navy); }
+  .legend{ display:flex; flex-wrap:wrap; gap:14px; font-size:10.5px; color:rgba(234,243,251,0.6); margin-top:12px; }
+  .legend span{ display:flex; align-items:center; gap:5px; }
+  .qualif-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; }
+  .dot-cl{ background:#5cc2f2; } .dot-el{ background:#9fdcff; } .dot-relb{ background:#e08a00; } .dot-releg{ background:#e2192c; }
+
+  .scorers{ display:flex; flex-wrap:wrap; gap:14px; }
+  .scorer-card{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; min-width:170px; }
+  .om-avatar{ width:44px; height:44px; border-radius:50%; background:linear-gradient(140deg,var(--om-sky),var(--om-blue)); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:15px; color:var(--om-navy); flex:none; }
+  .scorer-card .name{ font-weight:700; font-size:13.5px; }
+  .scorer-card .goals{ font-size:11px; color:rgba(234,243,251,0.6); }
+
+  .lineup{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:18px 20px; }
+  .lineup-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+  .lineup-row .pos-label{ width:100%; font-size:10.5px; text-transform:uppercase; letter-spacing:0.6px; color:rgba(234,243,251,0.5); margin-bottom:4px; }
+  .lineup-chip{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:999px; padding:6px 14px; font-size:12.5px; font-weight:600; }
+  .lineup-chip.cap::after{ content:" (C)"; opacity:0.6; font-weight:400; }
+  .lineup-sub{ font-size:11.5px; color:rgba(234,243,251,0.55); margin-top:10px; }
+
+  .summary-grid, .rumor-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .summary-card, .rumor-card{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:18px 20px; text-decoration:none; color:#eaf3fb; display:block; }
+  .summary-card:hover, .rumor-card:hover{ background:rgba(255,255,255,0.1); }
+  .summary-tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.6px; background:var(--om-sky); color:var(--om-navy); font-weight:800; padding:3px 8px; border-radius:999px; margin-bottom:10px; }
+  .summary-tag.out{ background:var(--jl-red); color:#fff; } .summary-tag.confirmed{ background:var(--green); color:#04180d; } .summary-tag.watch{ background:var(--orange); color:#2b1900; }
+  .summary-card h3, .rumor-card h3{ font-family:'Anton',sans-serif; font-weight:400; font-size:17px; margin:0 0 8px; line-height:1.2; }
+  .summary-card p, .rumor-card p{ font-size:13px; line-height:1.55; color:rgba(234,243,251,0.85); margin:0 0 10px; }
+  .summary-card .src, .rumor-card .src{ font-size:11px; color:rgba(234,243,251,0.5); }
+
+  .effectif-note{ font-size:12px; color:rgba(234,243,251,0.6); background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:12px 16px; margin-bottom:16px; line-height:1.5; }
+  .dep-tag{ font-size:10.5px; font-weight:800; padding:3px 10px; border-radius:999px; display:inline-block; }
+  .dep-low{ background:rgba(47,191,113,0.2); color:#7be3a6; }
+  .dep-mid{ background:rgba(224,138,0,0.2); color:#ffc25c; }
+  .dep-high{ background:rgba(226,25,44,0.2); color:#ff7d88; }
+
+  .cards{ display:flex; flex-direction:column; gap:14px; }
+  .card{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-left:4px solid var(--om-sky); border-radius:8px; padding:16px 18px; text-decoration:none; color:#eaf3fb; display:block; }
+  .page.jl-page .card{ border-left-color:var(--jl-red); background:var(--jl-charcoal); border-color:#2a2a30; color:#f1eeee; }
+  .card-title{ font-weight:700; font-size:14.5px; line-height:1.35; margin-bottom:6px; }
+  .card-meta{ font-size:11px; opacity:0.55; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px; }
+  .card-snippet{ font-size:13px; line-height:1.5; opacity:0.8; }
+  .status{ font-size:13px; opacity:0.6; padding:10px 0; }
+  .error{ font-size:13px; background:rgba(220,50,50,0.15); border:1px solid rgba(220,50,50,0.35); border-radius:8px; padding:12px 14px; }
+  .refresh{ font-family:'Archivo',sans-serif; font-weight:600; font-size:12px; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:999px; padding:7px 16px; cursor:pointer; }
+  .page.jl-page .refresh{ background:var(--jl-red); border-color:var(--jl-red); }
+  .om-page footer{ text-align:center; font-size:11px; color:rgba(234,243,251,0.45); padding:20px; border-top:1px solid rgba(255,255,255,0.15); }
+
+  /* ---------- JOBLIFE PAGE ---------- */
+  .page.jl-page{ background:var(--jl-black); color:#f1eeee; }
+  .jl-hero{ background:linear-gradient(160deg,var(--jl-black) 0%,var(--jl-red-dim) 75%,var(--jl-red) 140%); color:#fff; padding:36px clamp(20px,5vw,60px) 18px; }
+  .jl-hero h1{ font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(30px,6vw,50px); margin:0 0 6px; }
+  .jl-hero p{ max-width:560px; color:rgba(255,255,255,0.8); font-size:14px; margin:0 0 18px; }
+  .page.jl-page .block-head{ border-bottom-color:rgba(255,255,255,0.15); }
+  .page.jl-page .block-head .meta{ color:#9a9aa2; }
+
+  .roster-game .league{ font-size:12px; color:#9a9aa2; margin-bottom:12px; }
+  .roster-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:12px; }
+  .player-card{ background:var(--jl-charcoal); border:1px solid #2a2a30; border-radius:10px; padding:16px 10px; text-align:center; }
+  .avatar{ width:52px; height:52px; margin:0 auto 10px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:17px; color:#fff; background:linear-gradient(140deg,var(--jl-red),#5c0a12); box-shadow:inset 0 0 0 2px rgba(255,255,255,0.15); }
+  .staff-row .avatar{ background:linear-gradient(140deg,#3a3a42,#1c1c22); }
+  .player-card .name{ font-weight:700; font-size:14px; margin-bottom:3px; }
+  .player-card .role{ font-size:10px; text-transform:uppercase; letter-spacing:0.6px; color:var(--jl-red); font-weight:700; }
+  .staff-row{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-top:12px; }
+  .staff-card{ border:1px dashed #3a3a42; border-radius:10px; padding:14px 10px; text-align:center; }
+  .staff-card .name{ font-weight:700; font-size:13px; }
+  .staff-card .role{ font-size:10.5px; color:#9a9aa2; margin-top:2px; }
+
+  .jl-results{ display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+  .jl-res-row{ display:flex; align-items:center; justify-content:space-between; background:var(--jl-charcoal); border:1px solid #2a2a30; border-radius:8px; padding:10px 14px; font-size:13px; }
+  .jl-res-row .tag{ font-size:10px; padding:2px 8px; border-radius:999px; font-weight:800; }
+  .jl-res-row .tag.w{ background:var(--green); color:#04180d; } .jl-res-row .tag.l{ background:var(--jl-red); color:#fff; }
+  .jl-res-row .date{ font-size:10.5px; color:#9a9aa2; }
+
+  .tweet-embed-wrap{ background:var(--jl-charcoal); border:1px solid #2a2a30; border-radius:12px; padding:14px; max-width:520px; min-height:120px; }
+  .tweet-fallback{ font-size:13px; color:#9a9aa2; } .tweet-fallback a{ color:var(--jl-red); font-weight:700; text-decoration:none; }
+  .page.jl-page footer{ background:var(--jl-black); color:#75757c; border-top:1px solid #2a2a30; text-align:center; font-size:11px; padding:20px; }
+</style>
+</head>
+<body>
+
+<div class="masthead">FROM <span class="mid2">JOBLIFE</span> TO <span class="mid">OM</span></div>
+
+<nav class="switcher">
+  <button class="tab-om active" onclick="showPage('om')"><span class="nav-logo om">OM</span><span class="label">OM</span></button>
+  <button class="tab-jl" onclick="showPage('jl')"><span class="nav-logo jl">JL</span><span class="label">JOBLIFE</span></button>
+</nav>
+
+<!-- ============ PAGE OM ============ -->
+<div id="page-om" class="page om-page active">
+  <header class="om-hero">
+    <div class="crest">OM</div>
+    <h1>Olympique de Marseille</h1>
+    <p>Résultats, classement, mercato et effectif du club.</p>
+  </header>
+  <div class="subnav">
+    <button class="active" onclick="showSub('om','apercu')">Aperçu</button>
+    <button onclick="showSub('om','mercato')">Mercato</button>
+    <button onclick="showSub('om','effectif')">Effectif</button>
+  </div>
+
+  <!-- SOUS-PAGE APERÇU -->
+  <div id="om-apercu" class="subpage active">
+    <section class="block">
+      <div class="block-head"><h2>Résultats & prochain match</h2><span class="meta">Ligue 1 2026-2027</span></div>
+      <div class="results-strip">
+        <div class="match-card win"><div class="comp">Ligue 1 · J1 · 21 août</div><div class="match-row"><span>OM — Strasbourg</span><span class="score">4-0</span></div><div class="sub">Buts : Gouiri (46', 68' pen), Abdallah (89'), Højbjerg (90'+6)</div></div>
+        <div class="match-card loss"><div class="comp">Ligue 1 · J2 · 30 août</div><div class="match-row"><span>Monaco — OM</span><span class="score">2-0</span></div><div class="sub">Défaite à Louis-II. Buts encaissés : Brunner (13', 53')</div></div>
+        <div class="match-card next"><div class="comp">Ligue 1 · J3 · à venir</div><div class="match-row"><span>OM — Paris FC</span><span class="score">6 sept · 20h45</span></div><div class="sub">Orange Vélodrome</div></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Classement Ligue 1</h2><span class="meta">Après la 2ᵉ journée · mis à jour le 31/08/2026</span></div>
+      <div class="standings-wrap">
+        <table class="standings">
+          <thead><tr><th>#</th><th style="text-align:left;">Équipe</th><th>J</th><th>G</th><th>N</th><th>D</th><th>BP</th><th>BC</th><th>Diff</th><th>Pts</th></tr></thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span><i class="qualif-dot dot-cl"></i> Ligue des Champions</span><span><i class="qualif-dot dot-el"></i> Coupes d'Europe</span>
+        <span><i class="qualif-dot dot-relb"></i> Barrage de relégation</span><span><i class="qualif-dot dot-releg"></i> Relégation directe</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Meilleurs buteurs</h2><span class="meta">Saison 2026-2027</span></div>
+      <div class="scorers">
+        <div class="scorer-card"><div class="om-avatar">AG</div><div><div class="name">Amine Gouiri</div><div class="goals">2 buts</div></div></div>
+        <div class="scorer-card"><div class="om-avatar">KA</div><div><div class="name">Keyliane Abdallah</div><div class="goals">1 but</div></div></div>
+        <div class="scorer-card"><div class="om-avatar">PH</div><div><div class="name">Pierre-Emile Højbjerg</div><div class="goals">1 but</div></div></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Dernière composition</h2><span class="meta">Monaco 2-0 OM · 30 août</span></div>
+      <div class="lineup">
+        <div class="lineup-row"><div class="pos-label">Gardien</div><span class="lineup-chip">De Lange</span></div>
+        <div class="lineup-row"><div class="pos-label">Défense</div><span class="lineup-chip cap">Weah</span><span class="lineup-chip">Egan-Riley</span><span class="lineup-chip">Kondogbia</span><span class="lineup-chip">Emerson</span></div>
+        <div class="lineup-row"><div class="pos-label">Milieu</div><span class="lineup-chip">Højbjerg</span><span class="lineup-chip">Abdelli</span><span class="lineup-chip">Timber</span><span class="lineup-chip">Gomes</span></div>
+        <div class="lineup-row"><div class="pos-label">Attaque</div><span class="lineup-chip">Harit</span><span class="lineup-chip">Gouiri</span></div>
+        <div class="lineup-sub">Entrant : Moumbagna (85', pour Gomes)</div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>À la une</h2><span class="meta">Résumés</span></div>
+      <div class="summary-grid">
+        <a class="summary-card" href="https://www.franceinfo.fr/sports/foot/ligue-1/l-as-monaco-prend-les-commandes-de-la-ligue-1-grace-a-sa-victoire-contre-l-om_8169824.html" target="_blank" rel="noopener noreferrer">
+          <span class="summary-tag">Match</span><h3>Monaco domine l'OM (2-0) et prend la tête</h3>
+          <p>Battu à Louis-II dimanche, l'OM concède sa première défaite de la saison face à un Monaco solide, porté par un doublé du jeune attaquant Paris Brunner. Les Monégasques s'installent seuls en tête après deux journées.</p>
+          <span class="src">France Info</span>
+        </a>
+        <a class="summary-card" href="https://www.pronor.fr/mercato-om-en-direct/" target="_blank" rel="noopener noreferrer">
+          <span class="summary-tag">Coulisses</span><h3>Marché encadré par la DNCG</h3>
+          <p>L'OM doit composer avec un encadrement de sa masse salariale et de ses indemnités de transfert imposé fin juin par la DNCG, ce qui explique pourquoi plusieurs départs précèdent les arrivées avant la clôture du mercato le 1er septembre.</p>
+          <span class="src">Pronor</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Plus d'actus</h2><button class="refresh" onclick="loadFeed('om')">Actualiser</button></div>
+      <div id="status-om" class="status">Chargement…</div>
+      <div id="cards-om" class="cards"></div>
+    </section>
+    <footer>Résultats, compo, buteurs : L'Équipe, La Provence, Foot Marseille, Foot01. Classement : LFP / Foot Mercato. Actus : Google News.</footer>
+  </div>
+
+  <!-- SOUS-PAGE MERCATO -->
+  <div id="om-mercato" class="subpage">
+    <section class="block">
+      <div class="block-head"><h2>Rumeurs & mouvements mercato</h2><span class="meta">Mis à jour le 31/08/2026</span></div>
+      <div class="rumor-grid">
+        <a class="rumor-card" href="https://www.eurosport.fr/football/transferts/2026-2027/transferts-leonardo-balerdi-quitte-lom-pour-las-rome_sto23332516/story.shtml" target="_blank" rel="noopener noreferrer">
+          <span class="summary-tag confirmed">Confirmé · Départ</span><h3>Leonardo Balerdi → AS Rome</h3>
+          <p>Après six saisons à l'OM, l'ancien capitaine argentin rejoint l'Italie sous la forme d'un prêt assorti d'une option d'achat.</p>
+          <span class="src">Eurosport</span>
+        </a>
+        <div class="rumor-card">
+          <span class="summary-tag confirmed">Confirmé · Départ</span><h3>Mason Greenwood → Fenerbahçe</h3>
+          <p>L'attaquant anglais a quitté Marseille cet été pour rejoindre le club turc, un départ déjà acté avant le début de la saison.</p>
+          <span class="src">Eurosport</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag confirmed">Confirmé · Départ</span><h3>Gerónimo Rulli → Manchester City</h3>
+          <p>Le gardien argentin a quitté l'OM le 12 août pour rejoindre Manchester City, où il doit occuper le rôle de doublure de Gianluigi Donnarumma. Le transfert est estimé à environ 3,5 M€.</p>
+          <span class="src">Foot Mercato</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag watch">Rumeur · Arrivée</span><h3>Un accord avec Tanguy Ndombélé</h3>
+          <p>Selon Walid Acherchour (After Foot, RMC), l'OM aurait trouvé un accord avec le milieu de terrain Tanguy Ndombélé, libre depuis son départ de Nice et déjà entraîné par Bruno Genesio à Lyon. Sa signature reste toutefois bloquée par les restrictions imposées par la DNCG, qui exige encore des départs avant toute arrivée.</p>
+          <span class="src">RMC / After Foot</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag out">Rumeur forte · Départ</span><h3>Igor Paixão vers la Premier League</h3>
+          <p>Recrue la plus chère de l'histoire du club, le Brésilien serait de plus en plus proche d'un départ en Angleterre selon plusieurs médias suivant le dossier.</p>
+          <span class="src">Foot Marseille</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag watch">À surveiller</span><h3>Højbjerg et l'offre de Newcastle</h3>
+          <p>Le capitaine danois aurait décliné une offre de Newcastle cet été, mais son dossier reste suivi de près par la presse jusqu'à la fin du mercato.</p>
+          <span class="src">Foot Marseille</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag out">Rumeur · Départ</span><h3>Neal Maupay, une piste relancée</h3>
+          <p>Une opportunité de départ autour de 3 M€ aurait refait surface pour l'attaquant, dans un mercato où l'OM doit encore dégraisser son effectif.</p>
+          <span class="src">Foot Marseille</span>
+        </div>
+        <div class="rumor-card">
+          <span class="summary-tag out">Échec</span><h3>Dossier Todibo : nouveau revers</h3>
+          <p>La piste menant à Jean-Clair Todibo (RC Lens) aurait connu un nouveau coup dur sur le plan financier, compliquant une arrivée avant la clôture du marché.</p>
+          <span class="src">Foot Marseille</span>
+        </div>
+      </div>
+      <p class="effectif-note" style="margin-top:16px;">Rumeurs collectées via la presse spécialisée (Eurosport, Foot Marseille, But! Football Club) et les comptes X spécialisés OM au 31/08/2026. Le mercato se termine le 1er septembre : cette liste peut évoluer rapidement.</p>
+    </section>
+    <footer>Sources : Eurosport, Foot Marseille, But! Football Club, comptes X spécialisés Mercato OM.</footer>
+  </div>
+
+  <!-- SOUS-PAGE EFFECTIF -->
+  <div id="om-effectif" class="subpage">
+    <section class="block">
+      <div class="block-head"><h2>Effectif sous contrat</h2><span class="meta">Salaires & valeurs marchandes</span></div>
+      <p class="effectif-note">Salaires bruts hebdomadaires : dernière mise à jour Capology relayée en mars 2026 (non garantie 100% à jour). Valeurs marchandes : Transfermarkt, saison 2026-2027. Les <strong>%</strong> de probabilité de départ sont une estimation éditoriale du site, basée sur l'intensité des rumeurs de presse — ce n'est pas une statistique officielle ni un chiffre communiqué par le club.</p>
+      <div class="standings-wrap">
+        <table>
+          <thead><tr><th style="text-align:left;">Joueur</th><th>Poste</th><th>Salaire brut/sem.</th><th>Valeur marchande</th><th>Proba. départ</th></tr></thead>
+          <tbody id="effectif-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Staff technique</h2><span class="meta">Encadrement de Bruno Genesio</span></div>
+      <div class="staff-row">
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">BG</div><div class="name">Bruno Genesio</div><div class="role">Entraîneur principal</div></div>
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">DF</div><div class="name">Dimitri Farbos</div><div class="role">Adjoint</div></div>
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">JB</div><div class="name">Jérémie Bréchet</div><div class="role">Adjoint · lien Pro 2 / formation</div></div>
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">ND</div><div class="name">Nicolas Dehon</div><div class="role">Entraîneur des gardiens</div></div>
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">GL</div><div class="name">Grégory Lorenzi</div><div class="role">Directeur sportif</div></div>
+        <div class="staff-card" style="border-color:rgba(255,255,255,0.25);"><div class="avatar" style="background:linear-gradient(140deg,var(--om-sky),var(--om-navy));">SR</div><div class="name">Stéphane Richard</div><div class="role">Président</div></div>
+      </div>
+    </section>
+    <footer>Salaires : Capology. Valeurs marchandes : Transfermarkt. Staff technique : Foot Marseille, But! Football Club. Probabilités de départ : estimation éditoriale du site.</footer>
+  </div>
+</div>
+
+<!-- ============ PAGE JOBLIFE ============ -->
+<div id="page-jl" class="page jl-page">
+  <header class="jl-hero">
+    <h1>Joblife</h1>
+    <p>Rosters, staff, résultats et derniers tweets, par discipline.</p>
+  </header>
+  <div class="subnav">
+    <button class="active" onclick="showSub('jl','lol')">League of Legends</button>
+    <button onclick="showSub('jl','val')">Valorant</button>
+    <button onclick="showSub('jl','cr')">Clash Royale</button>
+    <button onclick="showSub('jl','staff')">Direction</button>
+  </div>
+
+  <!-- LOL -->
+  <div id="jl-lol" class="subpage active">
+    <section class="block roster-game">
+      <div class="block-head"><h2>League of Legends</h2><span class="meta">LFL — championnat national d'élite</span></div>
+      <div class="roster-grid">
+        <div class="player-card"><div class="avatar">R</div><div class="name">Ragner</div><div class="role">Top</div></div>
+        <div class="player-card"><div class="avatar">S</div><div class="name">Shift</div><div class="role">Jungle</div></div>
+        <div class="player-card"><div class="avatar">K</div><div class="name">Kofte</div><div class="role">Mid</div></div>
+        <div class="player-card"><div class="avatar">K</div><div class="name">KEDUII</div><div class="role">ADC</div></div>
+        <div class="player-card"><div class="avatar">M</div><div class="name">Mersa</div><div class="role">Support</div></div>
+      </div>
+      <div class="league" style="margin-top:14px;">Staff</div>
+      <div class="staff-row">
+        <div class="staff-card"><div class="avatar">A</div><div class="name">Arkhe</div><div class="role">Coach</div></div>
+        <div class="staff-card"><div class="avatar">Y</div><div class="name">Yong</div><div class="role">Assistant Coach</div></div>
+      </div>
+      <div class="jl-results">
+        <div class="jl-res-row"><span>Playoffs — Galions</span><span class="date">13 août</span><span class="tag l">0-2</span></div>
+        <div class="jl-res-row"><span>Saison régulière — 5V / 4D, 7ᵉ place, qualifié playoffs</span><span class="date">phase régulière</span><span class="tag l">Éliminé</span></div>
+      </div>
+    </section>
+    <footer>Rosters, staff & résultats : joblife.fr, team-aaa.com.</footer>
+  </div>
+
+  <!-- VALORANT -->
+  <div id="jl-val" class="subpage">
+    <section class="block roster-game">
+      <div class="block-head"><h2>Valorant</h2><span class="meta">VCT EMEA — Challengers France</span></div>
+      <div class="roster-grid">
+        <div class="player-card"><div class="avatar">U</div><div class="name">UNFAKE</div><div class="role">IGL</div></div>
+        <div class="player-card"><div class="avatar">P</div><div class="name">Pa1ze</div><div class="role">Duelist</div></div>
+        <div class="player-card"><div class="avatar">R</div><div class="name">runneR</div><div class="role">Duelist</div></div>
+        <div class="player-card"><div class="avatar">D</div><div class="name">Doma</div><div class="role">Initiateur</div></div>
+        <div class="player-card"><div class="avatar">K</div><div class="name">kamyk</div><div class="role">Controller</div></div>
+      </div>
+      <div class="league" style="margin-top:14px;">Remplaçant</div>
+      <div class="staff-row">
+        <div class="staff-card"><div class="avatar" style="background:linear-gradient(140deg,#5c5c66,#26262c);">C</div><div class="name">chiwa</div><div class="role">Sentinel · sur le banc, remplacé par Pa1ze le 24 juillet</div></div>
+      </div>
+      <div class="league" style="margin-top:14px;">Staff</div>
+      <div class="staff-row">
+        <div class="staff-card"><div class="avatar">L</div><div class="name">Larsson</div><div class="role">Coach</div></div>
+        <div class="staff-card"><div class="avatar">S</div><div class="name">Skazz</div><div class="role">Assistant Coach</div></div>
+      </div>
+      <div class="jl-results">
+        <div class="jl-res-row"><span>Fire Flux Esports</span><span class="date">16 août</span><span class="tag l">0-2</span></div>
+        <div class="jl-res-row"><span>vs Fnatic</span><span class="date">14 août</span><span class="tag w">2-0</span></div>
+        <div class="jl-res-row"><span>vs Pcific Esports</span><span class="date">13 août</span><span class="tag w">2-1</span></div>
+        <div class="jl-res-row"><span>vs Eternal Fire</span><span class="date">8 août</span><span class="tag l">1-2</span></div>
+      </div>
+    </section>
+    <footer>Rosters, staff & résultats : joblife.fr, vlr.gg.</footer>
+  </div>
+
+  <!-- CLASH ROYALE -->
+  <div id="jl-cr" class="subpage">
+    <section class="block roster-game">
+      <div class="block-head"><h2>Clash Royale</h2><span class="meta">Section ouverte en avril 2026</span></div>
+      <div class="roster-grid">
+        <div class="player-card"><div class="avatar">V</div><div class="name">Viiper</div><div class="role">Joueur</div></div>
+      </div>
+      <div class="jl-results">
+        <div class="jl-res-row"><span>Premiers pas — CRL Qualifier</span><span class="date">18 avril</span><span class="tag w">Débuts</span></div>
+      </div>
+      <p class="effectif-note" style="margin-top:16px;">Section encore jeune : un seul joueur signé pour l'instant (Viiper, l'un des Français les plus titrés sur le jeu). Le roster pourrait s'étoffer au fil de la saison.</p>
+    </section>
+    <footer>Source : joblife.fr, Liquipedia Clash Royale.</footer>
+  </div>
+
+  <!-- DIRECTION -->
+  <div id="jl-staff" class="subpage">
+    <section class="block">
+      <div class="block-head"><h2>Direction & staff général</h2><span class="meta">Toutes disciplines</span></div>
+      <div class="staff-row">
+        <div class="staff-card"><div class="avatar">T</div><div class="name">JLTomy</div><div class="role">CEO</div></div>
+        <div class="staff-card"><div class="avatar">S</div><div class="name">Samuel Benitah</div><div class="role">Co-CEO</div></div>
+        <div class="staff-card"><div class="avatar">B</div><div class="name">Bilal</div><div class="role">Manager Valorant</div></div>
+        <div class="staff-card"><div class="avatar">T</div><div class="name">Theotu</div><div class="role">Social Media Designer</div></div>
+        <div class="staff-card"><div class="avatar">B</div><div class="name">Barto</div><div class="role">Sponsorship</div></div>
+        <div class="staff-card"><div class="avatar">D</div><div class="name">Drijoka</div><div class="role">Directeur commercial</div></div>
+      </div>
+    </section>
+    <section class="block">
+      <div class="block-head"><h2>Derniers tweets</h2><a href="https://x.com/JoblifeEsport" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:#9a9aa2;">Voir sur X ↗</a></div>
+      <div class="tweet-embed-wrap">
+        <a class="twitter-timeline" data-theme="dark" data-height="480" href="https://twitter.com/JoblifeEsport?ref_src=twsrc%5Etfw">Tweets by JoblifeEsport</a>
+        <p class="tweet-fallback">Si le fil ne s'affiche pas ici, <a href="https://x.com/JoblifeEsport" target="_blank" rel="noopener noreferrer">consulte-le directement sur X</a>.</p>
+      </div>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </section>
+    <section class="block">
+      <div class="block-head"><h2>Actus Joblife</h2><button class="refresh" onclick="loadFeed('jl')">Actualiser</button></div>
+      <div id="status-jl" class="status">Chargement…</div>
+      <div id="cards-jl" class="cards"></div>
+    </section>
+    <footer>Staff : joblife.fr. Tweets : @JoblifeEsport sur X. Actus : Google News.</footer>
+  </div>
+</div>
+
+<script>
+function showPage(which){
+  document.getElementById('page-om').classList.toggle('active', which==='om');
+  document.getElementById('page-jl').classList.toggle('active', which==='jl');
+  document.querySelector('.tab-om').classList.toggle('active', which==='om');
+  document.querySelector('.tab-jl').classList.toggle('active', which==='jl');
+}
+function showSub(page, which){
+  const map = { om:['apercu','mercato','effectif'], jl:['lol','val','cr','staff'] };
+  map[page].forEach(id => {
+    document.getElementById(page+'-'+id).classList.toggle('active', id===which);
+  });
+  const nav = document.querySelectorAll('#page-'+page+' > .subnav > button');
+  const idx = map[page].indexOf(which);
+  nav.forEach((btn,i) => btn.classList.toggle('active', i===idx));
+}
+
+const STANDINGS = [
+  {pos:1,team:"AS Monaco",code:"ASM",color:"#c8102e",j:2,g:2,n:0,d:0,bp:3,bc:0,diff:3,pts:6,q:"cl"},
+  {pos:2,team:"Paris FC",code:"PFC",color:"#1f3a8f",j:2,g:1,n:1,d:0,bp:3,bc:0,diff:3,pts:4,q:"cl"},
+  {pos:3,team:"Lille",code:"LOSC",color:"#c8102e",j:2,g:1,n:1,d:0,bp:4,bc:2,diff:2,pts:4,q:"cl"},
+  {pos:4,team:"Lyon",code:"OL",color:"#1f3a8f",j:2,g:1,n:1,d:0,bp:3,bc:1,diff:2,pts:4,q:"cl"},
+  {pos:5,team:"Rennes",code:"SRFC",color:"#c8102e",j:2,g:1,n:1,d:0,bp:5,bc:4,diff:1,pts:4,q:"el"},
+  {pos:6,team:"Troyes",code:"ESTAC",color:"#1568b8",j:2,g:1,n:1,d:0,bp:2,bc:1,diff:1,pts:4,q:"el"},
+  {pos:7,team:"RC Lens",code:"RCL",color:"#c8102e",j:2,g:1,n:0,d:1,bp:6,bc:4,diff:2,pts:3,q:""},
+  {pos:8,team:"Marseille",code:"OM",color:"#1568b8",j:2,g:1,n:0,d:1,bp:4,bc:2,diff:2,pts:3,q:"",om:true},
+  {pos:9,team:"Angers",code:"SCO",color:"#101114",j:2,g:1,n:0,d:1,bp:3,bc:3,diff:0,pts:3,q:""},
+  {pos:10,team:"Strasbourg",code:"RCSA",color:"#1568b8",j:2,g:1,n:0,d:1,bp:2,bc:5,diff:-3,pts:3,q:""},
+  {pos:11,team:"Brest",code:"SB29",color:"#c8102e",j:2,g:0,n:2,d:0,bp:4,bc:4,diff:0,pts:2,q:""},
+  {pos:12,team:"PSG",code:"PSG",color:"#04193d",j:2,g:0,n:2,d:0,bp:4,bc:4,diff:0,pts:2,q:""},
+  {pos:13,team:"Le Mans",code:"LM",color:"#1f3a8f",j:2,g:0,n:1,d:1,bp:4,bc:5,diff:-1,pts:1,q:""},
+  {pos:14,team:"Lorient",code:"FCL",color:"#e07000",j:2,g:0,n:1,d:1,bp:1,bc:2,diff:-1,pts:1,q:""},
+  {pos:15,team:"Le Havre",code:"HAC",color:"#4fb3e8",j:2,g:0,n:1,d:1,bp:1,bc:2,diff:-1,pts:1,q:""},
+  {pos:16,team:"Toulouse",code:"TFC",color:"#5b2a86",j:2,g:0,n:1,d:1,bp:2,bc:4,diff:-2,pts:1,q:"relb"},
+  {pos:17,team:"Nice",code:"OGCN",color:"#c8102e",j:2,g:0,n:1,d:1,bp:0,bc:3,diff:-3,pts:1,q:"releg"},
+  {pos:18,team:"Auxerre",code:"AJA",color:"#1568b8",j:2,g:0,n:0,d:2,bp:3,bc:8,diff:-5,pts:0,q:"releg"}
+];
+function renderStandings(){
+  document.getElementById('standings-body').innerHTML = STANDINGS.map(r => `
+    <tr class="${r.om ? 'om-row' : ''}">
+      <td class="pos">${r.pos}</td>
+      <td class="team"><span class="badge" style="background:${r.color};">${r.code}</span>${r.q ? `<span class="qualif-dot dot-${r.q}"></span>` : ''}${r.team}</td>
+      <td>${r.j}</td><td>${r.g}</td><td>${r.n}</td><td>${r.d}</td><td>${r.bp}</td><td>${r.bc}</td>
+      <td>${r.diff > 0 ? '+' + r.diff : r.diff}</td><td><strong>${r.pts}</strong></td>
+    </tr>`).join('');
+}
+renderStandings();
+
+const EFFECTIF = [
+  {n:"Jeffrey De Lange",p:"GB",sal:"n.c.",val:"1,4 M€",dep:10},
+  {n:"CJ Egan-Riley",p:"DC",sal:"n.c.",val:"19,1 M€",dep:8},
+  {n:"Nayef Aguerd",p:"DC",sal:"410 k€",val:"21,5 M€",dep:15},
+  {n:"Benjamin Pavard",p:"DC / DD",sal:"605 k€",val:"21,8 M€",dep:45},
+  {n:"Facundo Medina",p:"DC / DG",sal:"348 k€",val:"24,8 M€",dep:10},
+  {n:"Emerson",p:"DG",sal:"303 k€",val:"7,7 M€",dep:10},
+  {n:"Timothy Weah (cap.)",p:"DD / AG",sal:"380 k€",val:"23 M€",dep:8},
+  {n:"Kelyann Bezahaf",p:"DD",sal:"n.c.",val:"n.c.",dep:5},
+  {n:"Pierre-Emile Højbjerg (cap.)",p:"MDC",sal:"455 k€",val:"n.c.",dep:45},
+  {n:"Geoffrey Kondogbia",p:"MDC",sal:"455 k€",val:"4,7 M€",dep:35},
+  {n:"Himad Abdelli",p:"MC",sal:"75 k€",val:"n.c.",dep:5},
+  {n:"Angel Gomes",p:"MO",sal:"333 k€",val:"n.c.",dep:20},
+  {n:"Tochukwu Nnadi",p:"MDC",sal:"45 k€",val:"1,6 M€",dep:10},
+  {n:"Tadjidine Mmadi",p:"MO",sal:"n.c.",val:"n.c.",dep:15},
+  {n:"Amine Gouiri",p:"ATT",sal:"380 k€",val:"32,7 M€",dep:5},
+  {n:"Igor Paixão",p:"AIL",sal:"425 k€",val:"n.c.",dep:85},
+  {n:"Neal Maupay",p:"ATT",sal:"257 k€",val:"n.c.",dep:75}
+];
+function depClass(pct){ return pct >= 65 ? "dep-high" : pct >= 30 ? "dep-mid" : "dep-low"; }
+function renderEffectif(){
+  document.getElementById('effectif-body').innerHTML = EFFECTIF.map(r => `
+    <tr>
+      <td class="joueur"><span class="badge" style="background:var(--om-blue);">${r.n.slice(0,2).toUpperCase()}</span>${r.n}</td>
+      <td>${r.p}</td><td>${r.sal}${r.sal!=='n.c.' ? ' / sem.' : ''}</td><td>${r.val}</td>
+      <td><span class="dep-tag ${depClass(r.dep)}">${r.dep}%</span></td>
+    </tr>`).join('');
+}
+renderEffectif();
+
+const FEEDS = {
+  om: 'https://news.google.com/rss/search?q=%22Olympique%20de%20Marseille%22&hl=fr&gl=FR&ceid=FR:fr',
+  jl: 'https://news.google.com/rss/search?q=%22Joblife%22%20esport&hl=fr&gl=FR&ceid=FR:fr'
+};
+function stripHtml(html){ const tmp = document.createElement('div'); tmp.innerHTML = html || ''; return (tmp.textContent || tmp.innerText || '').trim(); }
+function formatDate(dateStr){ try{ const d = new Date(dateStr); return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }catch(e){ return dateStr; } }
+async function loadFeed(key){
+  const statusEl = document.getElementById('status-' + key);
+  const cardsEl = document.getElementById('cards-' + key);
+  statusEl.style.display = 'block'; statusEl.textContent = 'Chargement…'; cardsEl.innerHTML = '';
+  const proxied = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEEDS[key]);
+  try{
+    const res = await fetch(proxied);
+    if(!res.ok) throw new Error('Réponse HTTP ' + res.status);
+    const data = await res.json();
+    if(data.status !== 'ok' || !data.items || !data.items.length){ throw new Error('Aucun article renvoyé pour le moment.'); }
+    statusEl.style.display = 'none';
+    data.items.slice(0, 10).forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'card'; a.href = item.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      const snippet = stripHtml(item.description).slice(0, 160);
+      a.innerHTML = `<div class="card-title">${stripHtml(item.title)}</div><div class="card-meta">${formatDate(item.pubDate)}${item.author ? ' · ' + stripHtml(item.author) : ''}</div><div class="card-snippet">${snippet}${snippet.length === 160 ? '…' : ''}</div>`;
+      cardsEl.appendChild(a);
+    });
+  }catch(err){
+    statusEl.style.display = 'block';
+    statusEl.innerHTML = `<div class="error">Impossible de charger ce fil pour l'instant (${err.message}). Réessaie avec "Actualiser".</div>`;
+  }
+}
+loadFeed('om');
+loadFeed('jl');
+// Rafraîchissement automatique des actus toutes les 3 minutes
+setInterval(() => { loadFeed('om'); loadFeed('jl'); }, 3 * 60 * 1000);
+</script>
+
+</body>
+</html>
