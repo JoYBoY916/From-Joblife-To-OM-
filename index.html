@@ -185,6 +185,97 @@
   .tweet-fallback{ font-size:13px; color:#9a9aa2; } .tweet-fallback a{ color:var(--jl-red); font-weight:700; text-decoration:none; }
   .page.jl-page footer{ background:var(--jl-black); color:#75757c; border-top:1px solid #2a2a30; text-align:center; font-size:11px; padding:20px; }
 
+  /* ---------- CompMaker ---------- */
+  .cm-formation-bar{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .cm-formation-bar button{
+    border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.75);
+    font-family:'Anton',sans-serif; font-weight:400; font-size:14px; letter-spacing:0.4px;
+    padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .15s ease;
+  }
+  .cm-formation-bar button.active{ background:var(--yellow); color:var(--om-navy); border-color:var(--yellow); }
+  .cm-pitch-wrap{ margin-bottom:18px; }
+  .cm-pitch{
+    position:relative; width:100%; aspect-ratio:3/4; border-radius:14px; overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(255,255,255,0.06), transparent 55%),
+      linear-gradient(180deg,var(--om-navy) 0%, var(--om-blue) 55%, var(--om-navy2) 100%);
+    box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  }
+  .cm-pitch::after{
+    content:""; position:absolute; inset:0;
+    background-image:var(--om-logo-url); background-size:60% auto; background-repeat:no-repeat; background-position:center;
+    opacity:0.14; pointer-events:none; z-index:0;
+  }
+  .cm-pitch::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 12.5%, transparent 12.5% 25%);
+    pointer-events:none; z-index:1;
+  }
+  .cm-pitch .cm-line{ position:absolute; border:1.5px solid rgba(255,255,255,0.35); pointer-events:none; z-index:1; }
+  .cm-slot{
+    position:absolute; transform:translate(-50%,-50%);
+    width:15%; aspect-ratio:1/1; max-width:56px;
+    border-radius:50%; background:rgba(255,255,255,0.14); border:2px dashed rgba(255,255,255,0.5);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Anton',sans-serif; font-size:15px; color:rgba(255,255,255,0.85);
+    cursor:pointer; transition:background .15s ease, border-color .15s ease, transform .1s ease;
+    z-index:2;
+  }
+  .cm-slot:active{ transform:translate(-50%,-50%) scale(0.92); }
+  .cm-slot .cm-slot-pos{ position:absolute; top:-9px; font-family:'Archivo',sans-serif; font-size:8px; font-weight:800; color:rgba(255,255,255,0.6); }
+  .cm-slot.filled{ background:#ffffff; border-style:solid; border-color:var(--yellow); color:var(--om-navy); }
+  .cm-slot-name{
+    position:absolute; top:100%; margin-top:6px; left:50%; transform:translateX(-50%);
+    background:#fff; color:var(--om-navy); font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:8px; white-space:nowrap; z-index:3;
+  }
+  .cm-bench-label, .cm-roster-label{ font-family:'Anton',sans-serif; font-weight:400; font-size:15px; color:var(--om-sky); margin:0 0 10px; }
+  .cm-roster-label span{ font-family:'Archivo',sans-serif; font-size:11px; color:rgba(234,243,251,0.5); font-weight:700; }
+  .cm-bench{
+    display:flex; gap:10px; overflow-x:auto; padding:10px 4px 18px;
+  }
+  .cm-bench-slot{
+    flex:none; width:64px; height:78px; border-radius:10px; background:rgba(255,255,255,0.06);
+    border:2px dashed rgba(255,255,255,0.3); display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:4px; cursor:pointer; position:relative;
+  }
+  .cm-bench-slot:active{ transform:scale(0.94); }
+  .cm-bench-slot.filled{ background:rgba(255,255,255,0.1); border-style:solid; border-color:var(--yellow); }
+  .cm-bench-num{ font-family:'Anton',sans-serif; font-size:16px; color:#fff; }
+  .cm-bench-name{ font-size:8.5px; font-weight:800; color:rgba(234,243,251,0.8); text-align:center; padding:0 3px; line-height:1.2; }
+  .cm-roster{ display:flex; flex-wrap:wrap; gap:8px; }
+  .cm-chip{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
+    border-radius:999px; padding:6px 14px 6px 6px; font-size:12.5px; font-weight:700;
+    transition:opacity .15s ease;
+  }
+  .cm-chip .cm-chip-num{
+    width:24px; height:24px; border-radius:50%; background:var(--om-blue); color:#fff; font-family:'Anton',sans-serif; font-size:11px;
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .cm-chip .cm-chip-pos{ font-size:9.5px; font-weight:700; color:rgba(234,243,251,0.5); text-transform:uppercase; }
+  .cm-chip.used{ opacity:0.28; }
+
+  /* ---------- CompMaker picker modal ---------- */
+  .cm-picker-box{ max-width:420px; background:linear-gradient(180deg,var(--om-navy),#071c33); color:#eaf3fb; border:1px solid rgba(92,194,242,0.3); }
+  .cm-picker-title{ font-family:'Anton',sans-serif; font-weight:400; font-size:19px; margin:0 0 4px; }
+  .cm-picker-sub{ font-size:12px; color:rgba(234,243,251,0.55); margin-bottom:14px; }
+  .cm-picker-remove{
+    display:block; width:100%; text-align:left; background:rgba(226,25,44,0.15); border:1px solid rgba(226,25,44,0.4);
+    color:#ff8d97; font-family:'Archivo',sans-serif; font-weight:700; font-size:13px; padding:10px 14px; border-radius:8px;
+    cursor:pointer; margin-bottom:14px;
+  }
+  .cm-picker-cat{ font-family:'Anton',sans-serif; font-weight:400; font-size:13px; color:var(--om-sky); margin:14px 0 6px; }
+  .cm-picker-cat:first-of-type{ margin-top:0; }
+  .cm-picker-list{ display:flex; flex-direction:column; gap:6px; }
+  .cm-picker-item{
+    display:flex; align-items:center; gap:10px; background:#0d3357; border:1px solid rgba(92,194,242,0.25);
+    border-radius:8px; padding:9px 12px; cursor:pointer; font-size:13px; font-weight:700; color:#eaf3fb;
+  }
+  .cm-picker-item:active{ background:#144a79; }
+  .cm-picker-item .cm-chip-num{ width:26px; height:26px; }
+  .cm-picker-empty{ font-size:12.5px; color:rgba(234,243,251,0.5); text-align:center; padding:20px 0; }
+
   /* ---------- Staff bio modal ---------- */
   .staff-card{ cursor:pointer; transition:transform .15s ease, border-color .15s ease; }
   .staff-card:hover{ transform:translateY(-2px); border-color:var(--jl-red); }
@@ -225,6 +316,16 @@
 </style>
 </head>
 <body>
+
+<div class="modal-overlay" id="cm-picker-modal" onclick="if(event.target===this) cmClosePicker()">
+  <div class="modal-box cm-picker-box">
+    <button class="modal-close" onclick="cmClosePicker()">✕</button>
+    <div class="cm-picker-title" id="cm-picker-title"></div>
+    <div class="cm-picker-sub" id="cm-picker-sub"></div>
+    <button class="cm-picker-remove" id="cm-picker-remove-btn" style="display:none;" onclick="cmRemoveFromPicker()">🗑️ Retirer ce joueur</button>
+    <div id="cm-picker-body"></div>
+  </div>
+</div>
 
 <div class="modal-overlay" id="match-modal" onclick="if(event.target===this) closeMatchModal()">
   <div class="modal-box match-modal-box">
@@ -270,9 +371,10 @@
     <p>Résultats, classement, mercato et effectif du club.</p>
   </header>
   <div class="subnav">
-    <button class="active" onclick="showSub('om','apercu')">Aperçu</button>
+    <button class="active" onclick="showSub('om','apercu')">Accueil</button>
     <button onclick="showSub('om','mercato')">Mercato</button>
     <button onclick="showSub('om','effectif')">Effectif</button>
+    <button onclick="showSub('om','compo')">Compositions</button>
   </div>
 
   <!-- SOUS-PAGE APERÇU -->
@@ -313,6 +415,11 @@
     <section class="block">
       <div class="block-head"><h2>À la une</h2><span class="meta">Résumés</span></div>
       <div class="summary-grid">
+        <div class="summary-card">
+          <span class="summary-tag">Mercato · 1ᵉʳ septembre, soir</span><h3>Timber s'en va finalement à Crystal Palace</h3>
+          <p>Ultime rebondissement du mercato marseillais : l'OM annonce le transfert de Quinten Timber à Crystal Palace pour environ 20 M€, quelques mois seulement après son arrivée du Feyenoord. Un joli chèque de dernière minute pour un club qui n'aura enregistré aucune recrue cet été.</p>
+          <span class="src">Foot Mercato / OM_Officiel</span>
+        </div>
         <div class="summary-card">
           <span class="summary-tag">Mercato · 1ᵉʳ septembre</span><h3>Le marché ferme sans aucune recrue pour l'OM</h3>
           <p>Le mercato français s'est refermé ce mardi à 19h59. Fait rarissime, l'Olympique de Marseille termine l'été sans avoir enregistré le moindre renfort, malgré une série de départs de cadres. Bruno Genesio a résumé la situation d'une phrase : « Je n'imaginais pas qu'on en serait à ce point ».</p>
@@ -357,7 +464,7 @@
   <div id="om-effectif" class="subpage">
     <section class="block">
       <div class="block-head"><h2>Effectif sous contrat</h2><span class="meta">Salaires & valeurs marchandes</span></div>
-      <p class="effectif-note"><strong>Mercato français clos depuis le 1ᵉʳ septembre 20h</strong> : les % ci-dessous sont revus à la baisse pour les dossiers non aboutis (Højbjerg, Timber), un transfert n'étant plus possible avant le mercato hivernal (1ᵉʳ-31 janvier 2027), sauf départ vers un championnat encore ouvert (Turquie, Portugal jusqu'au 4 septembre, Arabie saoudite plus tard). Numéros de maillot : source officielle om.fr. Salaires bruts mensuels : dernière estimation Capology relayée en mars 2026, recoupée avec la presse — non garantie 100% à jour. Valeurs marchandes : Transfermarkt, saison 2026-2027. Les <strong>%</strong> de probabilité de départ restent une estimation éditoriale du site, pas une statistique officielle. Les photos des joueurs ne sont pas intégrées : elles sont chargées dynamiquement sur om.fr et ne sont pas accessibles via un lien direct stable.</p>
+      <p class="effectif-note"><strong>Effectif complet (22 joueurs)</strong> mis à jour depuis om.fr, gardiens et remplaçants inclus. <strong>Quinten Timber a quitté le club</strong> le 1ᵉʳ septembre pour Crystal Palace (~20 M€) et n'apparaît donc plus ici. Mercato français clos depuis 20h ce soir : les % ci-dessous sont revus à la baisse pour les dossiers non aboutis (Højbjerg, Maupay), un transfert n'étant plus possible avant le mercato hivernal (1ᵉʳ-31 janvier 2027). Numéros de maillot : source officielle om.fr. Salaires bruts mensuels : dernière estimation Capology relayée en mars 2026 (non garantie à jour, plusieurs joueurs listés n'ont pas de donnée disponible). Valeurs marchandes : Transfermarkt. Les <strong>%</strong> de probabilité de départ restent une estimation éditoriale du site, pas une statistique officielle. Les photos des joueurs ne sont pas intégrées : elles sont chargées dynamiquement sur om.fr et ne sont pas accessibles via un lien direct stable.</p>
       <div class="standings-wrap">
         <table>
           <thead><tr><th style="text-align:left;">Joueur</th><th>Poste</th><th>Salaire brut/mois</th><th>Valeur marchande</th><th>Proba. départ</th></tr></thead>
@@ -378,6 +485,25 @@
       </div>
     </section>
     <footer>Salaires : Capology. Valeurs marchandes : Transfermarkt. Staff technique : Foot Marseille, But! Football Club. Probabilités de départ : estimation éditoriale du site.</footer>
+  </div>
+
+  <!-- SOUS-PAGE COMPOSITIONS (CompMaker) -->
+  <div id="om-compo" class="subpage">
+    <section class="block">
+      <div class="block-head"><h2>Créer ma composition</h2><button class="refresh" onclick="cmResetAll()">🔄 Nouvelle composition</button></div>
+      <div class="cm-formation-bar" id="cm-formation-bar"></div>
+
+      <div class="cm-pitch-wrap"><div class="cm-pitch" id="cm-pitch"></div></div>
+
+      <div class="cm-bench-label">Banc de touche</div>
+      <div class="cm-bench" id="cm-bench"></div>
+
+      <div class="cm-roster-label">Joueurs disponibles <span id="cm-roster-count"></span></div>
+      <div class="cm-roster" id="cm-roster"></div>
+
+      <p class="effectif-note" style="margin-top:16px;">Tape sur un poste du terrain ou une place du banc pour ouvrir la liste des joueurs disponibles et en choisir un. Tape sur un poste déjà occupé pour le remplacer ou le vider (bouton "Retirer"). Les vraies photos ne sont pas disponibles (voir la note dans l'onglet Effectif) : chaque joueur est représenté par son numéro officiel om.fr.</p>
+    </section>
+    <footer>Effectif : om.fr. Outil 100% local à ta session, rien n'est sauvegardé après fermeture de la page.</footer>
   </div>
 </div>
 
@@ -506,7 +632,7 @@ function showPage(which){
   document.querySelector('.tab-jl').classList.toggle('active', which==='jl');
 }
 function showSub(page, which){
-  const map = { om:['apercu','mercato','effectif'], jl:['lol','val','cr','staff'] };
+  const map = { om:['apercu','mercato','effectif','compo'], jl:['lol','val','cr','staff'] };
   map[page].forEach(id => {
     document.getElementById(page+'-'+id).classList.toggle('active', id===which);
   });
@@ -548,23 +674,26 @@ renderStandings();
 
 const EFFECTIF = [
   {n:"Jeffrey De Lange",num:12,p:"GB",sal:"n.c.",val:"1,4 M€",dep:10},
+  {n:"Jelle Van Neck",num:40,p:"GB",sal:"n.c.",val:"n.c.",dep:5},
+  {n:"Théo Vermot",num:92,p:"GB",sal:"n.c.",val:"n.c.",dep:5},
   {n:"CJ Egan-Riley",num:4,p:"DC",sal:"n.c.",val:"19,1 M€",dep:8},
-  {n:"Nayef Aguerd",num:21,p:"DC",sal:"410 k€",val:"19,6 M€",dep:15},
-  {n:"Emerson",num:33,p:"DG",sal:"303 k€",val:"7,7 M€",dep:10},
+  {n:"Derek Cornelius",num:13,p:"DC",sal:"n.c.",val:"n.c.",dep:10},
+  {n:"Bamo Meïté",num:18,p:"DC",sal:"n.c.",val:"n.c.",dep:15},
   {n:"Timothy Weah (cap.)",num:22,p:"DD / AG",sal:"380 k€",val:"23 M€",dep:8},
-  {n:"Kelyann Bezahaf",num:74,p:"DD",sal:"n.c.",val:"n.c.",dep:5},
-  {n:"Pierre-Emile Højbjerg (cap.)",num:23,p:"MDC",sal:"455 k€",val:"n.c.",dep:20},
-  {n:"Geoffrey Kondogbia",num:19,p:"MDC",sal:"455 k€",val:"4,7 M€",dep:30},
-  {n:"Himad Abdelli",num:8,p:"MC",sal:"75 k€",val:"n.c.",dep:5},
-  {n:"Quinten Timber",num:27,p:"MC",sal:"n.c.",val:"n.c.",dep:10},
-  {n:"Angel Gomes",num:7,p:"MO",sal:"333 k€",val:"n.c.",dep:15},
+  {n:"Ulisses Garcia",num:25,p:"DG",sal:"n.c.",val:"n.c.",dep:10},
+  {n:"Emerson",num:33,p:"DG",sal:"303 k€",val:"7,7 M€",dep:10},
+  {n:"Nayef Aguerd",num:21,p:"DC",sal:"410 k€",val:"19,6 M€",dep:15},
   {n:"Tochukwu Nnadi",num:6,p:"MDC",sal:"45 k€",val:"1,6 M€",dep:10},
-  {n:"Tadjidine Mmadi",num:43,p:"MO",sal:"n.c.",val:"n.c.",dep:15},
+  {n:"Angel Gomes",num:7,p:"MO",sal:"333 k€",val:"n.c.",dep:15},
+  {n:"Himad Abdelli",num:8,p:"MC",sal:"75 k€",val:"n.c.",dep:5},
+  {n:"Geoffrey Kondogbia",num:19,p:"MDC",sal:"455 k€",val:"4,7 M€",dep:30},
+  {n:"Pierre-Emile Højbjerg (cap.)",num:23,p:"MDC",sal:"455 k€",val:"n.c.",dep:20},
   {n:"Amine Harit",num:77,p:"AIL",sal:"n.c.",val:"n.c.",dep:20},
   {n:"Amine Gouiri",num:9,p:"ATT",sal:"380 k€",val:"32,7 M€",dep:5},
+  {n:"Neal Maupay",num:11,p:"ATT",sal:"257 k€",val:"n.c.",dep:20},
   {n:"Igor Paixão",num:14,p:"AIL",sal:"425 k€",val:"n.c.",dep:15},
-  {n:"Neal Maupay",num:11,p:"ATT",sal:"257 k€",val:"n.c.",dep:65},
   {n:"Faris Moumbagna",num:29,p:"ATT",sal:"n.c.",val:"n.c.",dep:15},
+  {n:"Tadjidine Mmadi",num:43,p:"ATT",sal:"n.c.",val:"n.c.",dep:15},
   {n:"Keyliane Abdallah",num:48,p:"ATT",sal:"n.c.",val:"n.c.",dep:10}
 ];
 function depClass(pct){ return pct >= 65 ? "dep-high" : pct >= 30 ? "dep-mid" : "dep-low"; }
@@ -578,15 +707,203 @@ function renderEffectif(){
 }
 renderEffectif();
 
+// ================= CompMaker =================
+const CM_FORMATIONS = {
+  "4-4-2": [["GB"],["DG","DC","DC","DD"],["MG","MC","MC","MD"],["BU","BU"]],
+  "4-3-3": [["GB"],["DG","DC","DC","DD"],["MC","MC","MC"],["AG","BU","AD"]],
+  "4-2-3-1": [["GB"],["DG","DC","DC","DD"],["MDC","MDC"],["MG","MO","MD"],["BU"]],
+  "3-5-2": [["GB"],["DC","DC","DC"],["MG","MC","MC","MC","MD"],["BU","BU"]],
+  "3-4-3": [["GB"],["DC","DC","DC"],["MG","MC","MC","MD"],["AG","BU","AD"]],
+  "4-1-4-1": [["GB"],["DG","DC","DC","DD"],["MDC"],["MG","MC","MC","MD"],["BU"]]
+};
+let cmFormation = "4-3-3";
+let cmAssignments = {}; // slotId -> player num
+let cmPlacedPlayers = new Set(); // player numbers currently on pitch or bench
+let cmPendingSlotEl = null; // slot currently open in the picker
+
+function cmRenderFormationBar(){
+  const bar = document.getElementById('cm-formation-bar');
+  if(!bar) return;
+  bar.innerHTML = Object.keys(CM_FORMATIONS).map(f =>
+    `<button class="${f===cmFormation?'active':''}" onclick="cmSelectFormation('${f}')">${f}</button>`
+  ).join('');
+}
+function cmSelectFormation(f){
+  cmFormation = f;
+  cmAssignments = {};
+  cmPlacedPlayers.clear();
+  cmRenderFormationBar();
+  cmRenderPitch();
+  cmRenderBench();
+  cmRenderRoster();
+}
+function cmResetAll(){
+  cmAssignments = {};
+  cmPlacedPlayers.clear();
+  cmRenderPitch();
+  cmRenderBench();
+  cmRenderRoster();
+}
+function cmRenderPitch(){
+  const pitch = document.getElementById('cm-pitch');
+  if(!pitch) return;
+  const rows = CM_FORMATIONS[cmFormation];
+  let html = `
+    <div class="cm-line" style="top:0;left:35%;width:30%;height:9%;border-top:none;"></div>
+    <div class="cm-line" style="top:48%;left:0;width:100%;height:0;"></div>
+    <div class="cm-line" style="top:38%;left:38%;width:24%;height:24%;border-radius:50%;"></div>
+  `;
+  rows.forEach((row, ri) => {
+    const y = 10 + ri * (80 / (rows.length - 1 || 1));
+    row.forEach((label, ci) => {
+      const x = (ci + 1) / (row.length + 1) * 100;
+      const id = `r${ri}c${ci}`;
+      html += `<div class="cm-slot" id="cm-slot-${id}" data-slot-id="${id}" data-pos-label="${label}" style="top:${y}%; left:${x}%;" onclick="cmOpenPicker(this)">
+        <span class="cm-slot-pos">${label}</span>
+        <span class="cm-slot-num"></span>
+      </div>`;
+    });
+  });
+  pitch.innerHTML = html;
+  // Re-fill any already-assigned slots (e.g. after a re-render without formation change)
+  Object.entries(cmAssignments).forEach(([slotId, num]) => {
+    const el = document.getElementById('cm-slot-' + slotId) || document.getElementById('cm-bench-' + slotId.replace('b',''));
+    if(el) cmFillSlot(el, num);
+  });
+}
+function cmRenderBench(){
+  const bench = document.getElementById('cm-bench');
+  if(!bench) return;
+  let html = '';
+  for(let i=0;i<7;i++){
+    html += `<div class="cm-bench-slot" id="cm-bench-${i}" data-slot-id="b${i}" data-pos-label="Remplaçant" onclick="cmOpenPicker(this)">
+      <span class="cm-bench-num"></span><span class="cm-bench-name"></span>
+    </div>`;
+  }
+  bench.innerHTML = html;
+}
+function cmCategory(p){
+  if(p === 'GB') return 'Gardiens';
+  if(p.startsWith('D')) return 'Défenseurs';
+  if(p.startsWith('M')) return 'Milieux';
+  return 'Attaquants';
+}
+function cmRenderRoster(){
+  const roster = document.getElementById('cm-roster');
+  const countEl = document.getElementById('cm-roster-count');
+  if(!roster) return;
+  roster.innerHTML = EFFECTIF.map(p => `
+    <div class="cm-chip ${cmPlacedPlayers.has(p.num)?'used':''}" data-num="${p.num}">
+      <span class="cm-chip-num">${p.num}</span>${p.n}<span class="cm-chip-pos">${p.p}</span>
+    </div>`).join('');
+  if(countEl) countEl.textContent = `(${EFFECTIF.length - cmPlacedPlayers.size} / ${EFFECTIF.length} restants)`;
+}
+function cmFillSlot(slotEl, num){
+  const p = EFFECTIF.find(pl => pl.num === num);
+  if(!p) return;
+  const isBench = slotEl.classList.contains('cm-bench-slot');
+  slotEl.classList.add('filled');
+  slotEl.dataset.player = num;
+  if(isBench){
+    slotEl.querySelector('.cm-bench-num').textContent = p.num;
+    slotEl.querySelector('.cm-bench-name').textContent = p.n.split(' ').pop();
+  } else {
+    slotEl.querySelector('.cm-slot-num').textContent = p.num;
+    let nameTag = slotEl.querySelector('.cm-slot-name');
+    if(!nameTag){
+      nameTag = document.createElement('div');
+      nameTag.className = 'cm-slot-name';
+      slotEl.appendChild(nameTag);
+    }
+    nameTag.textContent = p.n.split(' ').pop();
+  }
+}
+function cmClearSlotVisual(slotEl){
+  slotEl.classList.remove('filled');
+  delete slotEl.dataset.player;
+  const numEl = slotEl.querySelector('.cm-slot-num, .cm-bench-num');
+  if(numEl) numEl.textContent = '';
+  const nameTag = slotEl.querySelector('.cm-slot-name');
+  if(nameTag) nameTag.remove();
+  const benchName = slotEl.querySelector('.cm-bench-name');
+  if(benchName) benchName.textContent = '';
+}
+
+// ---- Picker modal (tap a position -> choose a player from the roster) ----
+function cmOpenPicker(slotEl){
+  cmPendingSlotEl = slotEl;
+  const label = slotEl.dataset.posLabel;
+  const occupantNum = slotEl.dataset.player ? parseInt(slotEl.dataset.player, 10) : null;
+  document.getElementById('cm-picker-title').textContent = occupantNum ? 'Remplacer ce poste' : `Choisir un joueur — ${label}`;
+  const occupant = occupantNum ? EFFECTIF.find(p => p.num === occupantNum) : null;
+  document.getElementById('cm-picker-sub').textContent = occupant
+    ? `Actuellement : #${occupant.num} ${occupant.n}`
+    : 'Sélectionne un joueur de l\'effectif à placer ici.';
+  const removeBtn = document.getElementById('cm-picker-remove-btn');
+  removeBtn.style.display = occupant ? 'block' : 'none';
+
+  const available = EFFECTIF.filter(p => !cmPlacedPlayers.has(p.num) || p.num === occupantNum);
+  const cats = ['Gardiens','Défenseurs','Milieux','Attaquants'];
+  const body = document.getElementById('cm-picker-body');
+  if(available.length === 0){
+    body.innerHTML = '<div class="cm-picker-empty">Tous les joueurs de l\'effectif sont déjà placés.</div>';
+  } else {
+    body.innerHTML = cats.map(cat => {
+      const players = available.filter(p => cmCategory(p.p) === cat);
+      if(players.length === 0) return '';
+      return `<div class="cm-picker-cat">${cat}</div><div class="cm-picker-list">${players.map(p => `
+        <div class="cm-picker-item" onclick="cmAssignFromPicker(${p.num})">
+          <span class="cm-chip-num">${p.num}</span>${p.n}<span class="cm-chip-pos" style="margin-left:auto;">${p.p}</span>
+        </div>`).join('')}</div>`;
+    }).join('');
+  }
+  document.getElementById('cm-picker-modal').classList.add('open');
+}
+function cmClosePicker(){
+  document.getElementById('cm-picker-modal').classList.remove('open');
+  cmPendingSlotEl = null;
+}
+function cmAssignFromPicker(num){
+  if(!cmPendingSlotEl) return;
+  const slotEl = cmPendingSlotEl;
+  const slotId = slotEl.dataset.slotId;
+  const prevNum = slotEl.dataset.player ? parseInt(slotEl.dataset.player, 10) : null;
+  if(prevNum !== null) cmPlacedPlayers.delete(prevNum);
+  cmFillSlot(slotEl, num);
+  cmAssignments[slotId] = num;
+  cmPlacedPlayers.add(num);
+  cmRenderRoster();
+  cmClosePicker();
+}
+function cmRemoveFromPicker(){
+  if(!cmPendingSlotEl) return;
+  const slotEl = cmPendingSlotEl;
+  const slotId = slotEl.dataset.slotId;
+  const prevNum = slotEl.dataset.player ? parseInt(slotEl.dataset.player, 10) : null;
+  if(prevNum !== null) cmPlacedPlayers.delete(prevNum);
+  cmClearSlotVisual(slotEl);
+  delete cmAssignments[slotId];
+  cmRenderRoster();
+  cmClosePicker();
+}
+
+cmRenderFormationBar();
+cmRenderPitch();
+cmRenderBench();
+cmRenderRoster();
+// ================= /CompMaker =================
+
+
 const MERCATO = [
+  {date:"2026-09-01T22:00", tag:"confirmed", label:"Officiel · Départ", title:"Timber quitte finalement l'OM pour Crystal Palace", desc:"Rebondissement final : après un feuilleton à rallonge, l'OM annonce dans un communiqué le transfert de Quinten Timber à Crystal Palace, pour un montant estimé à environ 20 M€ bonus compris. Le club « remercie le milieu de terrain néerlandais et lui souhaite le meilleur pour la suite de sa carrière ». Recruté pour 4,5 M€ en janvier, Timber n'aura passé que quelques mois sur la Canebière.", src:"Foot Mercato / Foot-sur7 / OM_Officiel"},
   {date:"2026-09-01T20:30", tag:"confirmed", label:"Officiel · Mercato clos", title:"L'OM boucle un mercato historique... sans aucune recrue", desc:"Le marché des transferts français a fermé ce mardi à 19h59. Fait rarissime pour un club de ce standing, l'Olympique de Marseille termine l'été sans avoir enregistré le moindre renfort, après une série de départs de cadres. Bruno Genesio a résumé la situation d'une phrase : « Je n'imaginais pas qu'on en serait à ce point ».", src:"France Bleu / Mediapronos"},
-  {date:"2026-09-01T19:00", tag:"confirmed", label:"Officiel · Il reste", title:"Le transfert de Timber à Crystal Palace capote in extremis", desc:"Alors qu'un accord semblait acté, le transfert de Quinten Timber vers Crystal Palace s'est effondré dans les toutes dernières heures, en raison de désaccords sur les commissions d'agents impliquant la société Unique Sports Group. Timber reste finalement à l'OM, sous contrat jusqu'en juin 2030.", src:"L'Équipe / Foot-sur7"},
+  {date:"2026-09-01T19:00", tag:"watch", label:"Rebondissement (dépassé)", title:"Le feuilleton Timber-Crystal Palace jusqu'au bout", desc:"Dans les toutes dernières heures du marché anglais, Crystal Palace était revenu à la charge pour Timber malgré un accord initial jugé rompu côté marseillais — un ultime rebondissement qui a fini par aboutir au transfert (voir l'actu la plus récente ci-dessus).", src:"L'Équipe / Foot-sur7 / RMC Sport"},
   {date:"2026-09-01T18:00", tag:"watch", label:"Perspective", title:"McCourt maintient la pression au-delà du 1er septembre", desc:"Bien que le marché français soit clos, le propriétaire Frank McCourt entend continuer à pousser pour des ventes et des économies de salaire dans les semaines à venir, notamment en direction du championnat saoudien, dont la fenêtre reste ouverte plus longtemps.", src:"Foot Marseille"},
   {date:"2026-09-01", tag:"watch", label:"À surveiller", title:"La Juventus se penche sur Højbjerg", desc:"Poussé vers la sortie en raison de son gros salaire (environ 500 000 € par mois), le capitaine danois aurait une touche sérieuse du côté de la Juventus Turin, selon la presse italienne. Le dossier n'a pas abouti avant la fermeture du marché français et devra attendre, sauf mouvement dans un championnat encore ouvert.", src:"Sport Mediaset / Maxifoot"},
   {date:"2026-09-01", tag:"watch", label:"Officiel · Mercato entrant", title:"Genesio explique l'équation pour 1 ou 2 recrues", desc:"L'entraîneur marseillais a détaillé les conditions encore nécessaires pour que l'OM puisse enregistrer une ou deux recrues avant la fermeture du marché, un scénario qui reste conditionné à de nouveaux départs.", src:"Foot Marseille"},
   {date:"2026-09-01", tag:"out", label:"Échec", title:"Todibo : le RC Lens double l'OM", desc:"Le dossier Jean-Clair Todibo tourne finalement à l'avantage du RC Lens, qui devance l'OM dans la course pour recruter le défenseur.", src:"Le Phocéen"},
   {date:"2026-09-01", tag:"watch", label:"Effet secondaire", title:"Vers Tottenham, Ndiaye pourrait rapporter un chèque à l'OM", desc:"Le transfert annoncé d'Iliman Ndiaye, formé à l'OM, vers Tottenham pourrait déclencher un bonus à la revente en faveur du club marseillais, selon la presse spécialisée.", src:"Foot Marseille"},
-  {date:"2026-08-31", tag:"confirmed", label:"Officiel · Ils restent", title:"Paixão, Aguerd, Timber et Emerson resteront finalement à l'OM", desc:"Alors que leurs départs semblaient acquis (Sunderland pour Paixão avec une offre à 40 M€, Real Sociedad pour Aguerd, Crystal Palace pour Timber, la Juventus pour Emerson), le board marseillais a tranché : les quatre joueurs resteront cet été, sauf revirement de dernière minute.", src:"Foot Mercato / But! Football Club"},
+  {date:"2026-08-31", tag:"confirmed", label:"Officiel (partiellement dépassé)", title:"Paixão, Aguerd et Emerson resteront à l'OM — Timber, lui, repartira", desc:"Alors que leurs départs semblaient acquis (Sunderland pour Paixão avec une offre à 40 M€, Real Sociedad pour Aguerd, la Juventus pour Emerson), le board marseillais avait tranché fin août pour les conserver. Le cas de Timber, évoqué à Crystal Palace au même moment, a connu un dénouement différent le 1ᵉʳ septembre (voir plus haut) : il a bien quitté le club.", src:"Foot Mercato / But! Football Club"},
   {date:"2026-08-31", tag:"watch", label:"Rumeur · Arrivée", title:"Un accord évoqué avec Tanguy Ndombélé", desc:"Selon Walid Acherchour (After Foot, RMC), l'OM aurait un accord avec le milieu de terrain libre Tanguy Ndombélé, déjà entraîné par Bruno Genesio à Lyon. Sa signature reste bloquée par les restrictions de la DNCG, qui exige encore des départs avant toute arrivée.", src:"RMC / After Foot"},
   {date:"2026-08-30", tag:"confirmed", label:"Confirmé · Départ", title:"Leonardo Balerdi → AS Rome", desc:"Après six saisons et 200 matchs à l'OM, l'ancien capitaine argentin rejoint l'Italie sous la forme d'un prêt assorti d'une option d'achat.", src:"Eurosport"},
   {date:"2026-08-30", tag:"watch", label:"À surveiller", title:"Neal Maupay ciblé par plusieurs clubs de Serie A", desc:"Monza, le Torino et le Genoa suivraient l'attaquant, avec Monza en pole pour un prêt assorti d'une option d'achat autour de 3 M€. Aucune négociation avancée avec l'OM à ce stade.", src:"Foot Mercato / But! Football Club"},
